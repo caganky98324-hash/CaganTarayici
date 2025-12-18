@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaganTarayıcı | Geleceğin Web Portalı</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: radial-gradient(circle at center, #101820 0%, #000000 100%);
+            color: #00f2ff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* LOGO TASARIMI */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+            animation: fadeIn 2s ease-in;
+        }
+
+        .c-logo {
+            width: 80px;
+            height: 80px;
+            border: 5px solid #00f2ff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            font-weight: bold;
+            box-shadow: 0 0 20px #00f2ff, inset 0 0 15px #00f2ff;
+            background: rgba(0, 242, 255, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .logo-text {
+            font-size: 14px;
+            letter-spacing: 5px;
+            color: #00f2ff;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-style: italic;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0, 242, 255, 0.5);
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        /* ARAMA KUTUSU */
+        .search-area {
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 18px 30px;
+            border-radius: 50px;
+            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.4s;
+            backdrop-filter: blur(5px);
+        }
+
+        input[type="text"]:focus {
+            border-color: #00f2ff;
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* BUTONLAR */
+        .engine-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #aaa;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover, .btn.active {
+            background: #00f2ff;
+            color: #000;
+            border-color: #00f2ff;
+            box-shadow: 0 0 15px #00f2ff;
+        }
+
+        /* HIZLI BAĞLANTILAR */
+        .shortcuts {
+            display: flex;
+            gap: 25px;
+            margin-top: 60px;
+        }
+
+        .shortcut-item {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .shortcut-item:hover {
+            transform: translateY(-10px);
+            color: #00f2ff;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            font-size: 24px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .clock {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-family: monospace;
+            color: #444;
+        }
+
+        /* --- YAPAY ZEKA PANELİ (YENİ) --- */
+        #ai-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        #ai-window {
+            width: 320px;
+            height: 400px;
+            background: #111;
+            border: 1px solid #00f2ff;
+            border-radius: 15px;
+            display: none; /* Başlangıçta gizli */
+            flex-direction: column;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            margin-bottom: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .ai-header {
+            background: #00f2ff;
+            color: #000;
+            padding: 12px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .chat-area {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .msg { padding: 8px 12px; border-radius: 10px; max-width: 85%; line-height: 1.4; }
+        .bot-msg { background: #222; color: #00f2ff; align-self: flex-start; border: 1px solid #333; }
+        .user-msg { background: #00f2ff; color: #000; align-self: flex-end; }
+
+        .ai-input-box {
+            display: flex;
+            padding: 10px;
+            background: #1a1a1a;
+            border-top: 1px solid #333;
+        }
+
+        .ai-input-box input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            padding: 5px;
+        }
+
+        .ai-toggle-btn {
+            width: 60px;
+            height: 60px;
+            background: #00f2ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            transition: 0.3s;
+        }
+
+        .ai-toggle-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(0, 242, 255, 0.6); }
+        .ai-toggle-btn svg { width: 30px; height: 30px; fill: #000; }
+
+    </style>
+</head>
+<body>
+
+    <div class="clock" id="clock">00:00:00</div>
+
+    <div class="logo-container">
+        <div class="c-logo">C</div>
+        <div class="logo-text">CaganTarayıcısı</div>
+        <h1>CaganTarayıcı</h1>
+    </div>
+
+    <div class="search-area">
+        <div class="input-group">
+            <input type="text" id="mainSearch" placeholder="İnternette özgürce ara..." autocomplete="off">
+        </div>
+
+        <div class="engine-btns">
+            <button class="btn active" onclick="setEngine('google', this)">Google</button>
+            <button class="btn" onclick="setEngine('bing', this)">Bing</button>
+            <button class="btn" onclick="setEngine('youtube', this)">YouTube</button>
+        </div>
+    </div>
+
+    <div class="shortcuts">
+        <a href="https://www.youtube.com" class="shortcut-item">
+            <div class="icon-circle">YT</div>
+            <span>YouTube</span>
+        </a>
+        <a href="https://www.instagram.com" class="shortcut-item">
+            <div class="icon-circle">IG</div>
+            <span>Instagram</span>
+        </a>
+        <a href="https://www.github.com" class="shortcut-item">
+            <div class="icon-circle">GH</div>
+            <span>GitHub</span>
+        </a>
+        <a href="https://chat.openai.com" class="shortcut-item">
+            <div class="icon-circle">AI</div>
+            <span>ChatGPT</span>
+        </a>
+    </div>
+
+    <div id="ai-container">
+        <div id="ai-window">
+            <div class="ai-header">CAGAN AI ASİSTAN</div>
+            <div class="chat-area" id="chatArea">
+                <div class="msg bot-msg">Selam Cagan! Ben senin yapay zeka asistanınım. Sana nasıl yardımcı olabilirim?</div>
+            </div>
+            <div class="ai-input-box">
+                <input type="text" id="aiInput" placeholder="Bir şey sor..." onkeypress="askAI(event)">
+            </div>
+        </div>
+        <div class="ai-toggle-btn" onclick="toggleAI()">
+            <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z" /></svg>
+        </div>
+    </div>
+
+    <script>
+        let engine = 'google';
+
+        function setEngine(selected, el) {
+            engine = selected;
+            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        document.getElementById('mainSearch').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                let q = this.value;
+                let url = '';
+                if (engine === 'google') url = `https://www.google.com/search?q=${q}`;
+                if (engine === 'bing') url = `https://www.bing.com/search?q=${q}`;
+                if (engine === 'youtube') url = `https://www.youtube.com/results?search_query=${q}`;
+                window.location.href = url;
+            }
+        });
+
+        // AI Panelini aç/kapat
+        function toggleAI() {
+            const window = document.getElementById('ai-window');
+            window.style.display = (window.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        // AI Mesajlaşma
+        function askAI(e) {
+            if (e.key === 'Enter') {
+                const input = document.getElementById('aiInput');
+                const chatArea = document.getElementById('chatArea');
+                if (input.value.trim() === "") return;
+
+                // Kullanıcı mesajı
+                chatArea.innerHTML += `<div class="msg user-msg">${input.value}</div>`;
+
+                // Basit cevap mantığı (Simülasyon)
+                let response = "Harika bir soru kanka! Hemen araştırıyorum.";
+                if(input.value.toLowerCase().includes("selam")) response = "Selam Cagan, her şey yolunda mı?";
+
+                setTimeout(() => {
+                    chatArea.innerHTML += `<div class="msg bot-msg">${response}</div>`;
+                    chatArea.scrollTop = chatArea.scrollHeight;
+                }, 600);
+
+                input.value = "";
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }
+        }
+
+        // Saat güncelleme
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }, 1000);
+    </script>
+</body>
+</html>
